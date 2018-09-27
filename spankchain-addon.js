@@ -5,7 +5,7 @@ if (!window.pluginLoaded){
   gongAudio.volume=0.3;
   function playGong(){gongAudio.play();}
 
-  const clickAudio = new Audio("https://freesound.org/data/previews/369/369955_6857950-lq.mp3");
+  const clickAudio = new Audio("https://autotelic17.github.io/slap.mp3");
   clickAudio.volume=0.3;
   function playClick(){clickAudio.play();}
 
@@ -53,6 +53,7 @@ if (!window.pluginLoaded){
     }else{
       this.innerHTML = '🔔';
     }
+    return false;
   }
 
   setInterval(roomCheck, 2000);
