@@ -1,7 +1,7 @@
 if (!window.pluginLoaded){
 
   const viewCountEl = document.querySelector(".viewerCount");
-  const gongAudio = new Audio("http://www.rickshriver.net/sounds/keromong/gong%20A6.wav");
+  const gongAudio = new Audio("https://autotelic17.github.io/gong.wav");
   gongAudio.volume=0.3;
   function playGong(){gongAudio.play();}
 
