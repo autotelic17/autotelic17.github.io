@@ -27,7 +27,7 @@ if (!window.pluginLoaded){
     }
   }
 
-  let lastChatMessage = document.querySelector('.chatMessage:last-child').innerText;
+  let lastChatMessage = document.querySelector('.chatMessage:last-child') && document.querySelector('.chatMessage:last-child').innerText;
   function chatCheck(){
     if (document.getElementById('chat-toggle-sound').innerHTML == '🔔'){
       if (lastChatMessage !== document.querySelector('.chatMessage:last-child').innerText){
