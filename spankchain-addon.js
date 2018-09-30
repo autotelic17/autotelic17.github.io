@@ -88,6 +88,7 @@ if (!window.pluginLoaded){
   function diceReset(){
     diceSides = null;
     document.getElementById('dice-reset').style.display = 'none';
+    return false;
   }
 
   function diceRoll(){
