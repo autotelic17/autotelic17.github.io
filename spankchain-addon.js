@@ -56,7 +56,7 @@ if (!window.pluginLoaded){
 
   let addonDiv = document.createElement('div');
   addonDiv.style.cssText= 'color: gray; padding: 5px; font-size: 0.75em;';
-  addonDiv.innerHTML = '<span>Version ' + version + '</span><span style="float: right">Roll: <a id="dice-roll" href="#">🎲</a> &nbsp; Join: <a id="join-toggle-sound" href="#">🔔</a> &nbsp; Leave: <a id="leave-toggle-sound" href="#">🔕</a> &nbsp; Chat: <a id="chat-toggle-sound" href="#">🔕</a></span>';
+  addonDiv.innerHTML = '<span>Version ' + version + '</span><span style="float: right">Roll: <a title="reset" id="dice-roll" href="#">🎲</a> <a style="display:none;" id="dice-reset" href="#">(r)</a> &nbsp; Join: <a id="join-toggle-sound" href="#">🔔</a> &nbsp; Leave: <a id="leave-toggle-sound" href="#">🔕</a> &nbsp; Chat: <a id="chat-toggle-sound" href="#">🔕</a></span>';
 
 
   document.querySelector('.tabsContainer').appendChild(addonDiv);
@@ -65,8 +65,9 @@ if (!window.pluginLoaded){
   document.getElementById('leave-toggle-sound').onclick = soundToggle;
   document.getElementById('chat-toggle-sound').onclick = soundToggle;
   document.getElementById('dice-roll').onclick = diceRoll;
+  document.getElementById('dice-reset').onclick = diceReset;
 
-  function getRandomInt(max) {max = max - 1; return (Math.round(Math.random() * Math.floor(max))) + 1;}
+  function getRandomInt(max) {max = max - 1; return (Math.round(Math.random() * Math.floor(diceSides))) + 1;}
   function sayMsg(txt){
     document.querySelector('.chat-user-input').value = txt;
     document.querySelector('.send-btn').click();
@@ -82,7 +83,20 @@ if (!window.pluginLoaded){
     return false;
   }
 
+  let diceSides = null;
+
+  function diceReset(){
+    diceSides = null;
+    document.getElementById('dice-reset').style.display = 'none';
+  }
+
   function diceRoll(){
+    if (!diceSides){
+      diceSides = prompt("How many sided dice?", "6");
+      diceSides = parseInt(diceSides);
+      document.getElementById('dice-reset').style.display = 'inline';
+    }
+    console.log('diceSides', diceSides);
     sayMsg('Rolling the dice... 🎲');
     playDice();
     setTimeout(function(){
