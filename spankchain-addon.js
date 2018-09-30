@@ -17,6 +17,10 @@ if (!window.pluginLoaded){
   leaveAudio.volume=0.2;
   function playLeave(){leaveAudio.play();}
 
+  const diceAudio = new Audio("https://autotelic17.github.io/dice.mp3");
+  diceAudio.volume=0.4;
+  function playDice(){diceAudio.play();}
+
   let lastCount = viewCountEl && Number(viewCountEl.innerHTML);
   function roomCheck(){
     if (document.querySelector('.tab.active').innerText == 'Chat'){
@@ -52,7 +56,7 @@ if (!window.pluginLoaded){
 
   let addonDiv = document.createElement('div');
   addonDiv.style.cssText= 'color: gray; padding: 5px; font-size: 0.75em;';
-  addonDiv.innerHTML = '<span>Version ' + version + '</span><span style="float: right">Join: <a id="join-toggle-sound" href="#">🔔</a> &nbsp; Leave: <a id="leave-toggle-sound" href="#">🔕</a> &nbsp; Chat: <a id="chat-toggle-sound" href="#">🔕</a></span>';
+  addonDiv.innerHTML = '<span>Version ' + version + '</span><span style="float: right">Roll: <a id="dice-roll" href="#">🎲</a> &nbsp; Join: <a id="join-toggle-sound" href="#">🔔</a> &nbsp; Leave: <a id="leave-toggle-sound" href="#">🔕</a> &nbsp; Chat: <a id="chat-toggle-sound" href="#">🔕</a></span>';
 
 
   document.querySelector('.tabsContainer').appendChild(addonDiv);
@@ -60,6 +64,13 @@ if (!window.pluginLoaded){
   document.getElementById('join-toggle-sound').onclick = soundToggle;
   document.getElementById('leave-toggle-sound').onclick = soundToggle;
   document.getElementById('chat-toggle-sound').onclick = soundToggle;
+  document.getElementById('dice-roll').onclick = diceRoll;
+
+  function getRandomInt(max) {return Math.floor(Math.random() * Math.floor(max));}
+  function sayMsg(txt){
+    document.querySelector('.chat-user-input').value = txt;
+    document.querySelector('.send-btn').click();
+  }
 
   function soundToggle(){
     if (this.innerHTML == '🔔'){
@@ -67,6 +78,16 @@ if (!window.pluginLoaded){
     }else{
       this.innerHTML = '🔔';
     }
+
+    return false;
+  }
+
+  function diceRoll(){
+    sayMsg('Rolling the dice... 🎲');
+    playDice();
+    setTimeout(function(){
+      sayMsg('You got ' + getRandomInt(12) + '!');
+    }, 2000);
     return false;
   }
 
