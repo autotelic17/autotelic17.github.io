@@ -66,7 +66,7 @@ if (!window.pluginLoaded){
   document.getElementById('chat-toggle-sound').onclick = soundToggle;
   document.getElementById('dice-roll').onclick = diceRoll;
 
-  function getRandomInt(max) {return Math.floor(Math.random() * Math.floor(max));}
+  function getRandomInt(max) {max = max - 1; return (Math.round(Math.random() * Math.floor(max))) + 1;}
   function sayMsg(txt){
     document.querySelector('.chat-user-input').value = txt;
     document.querySelector('.send-btn').click();
@@ -87,7 +87,7 @@ if (!window.pluginLoaded){
     playDice();
     setTimeout(function(){
       sayMsg('You got ' + getRandomInt(12) + '!');
-    }, 2000);
+    }, 1000);
     return false;
   }
 
