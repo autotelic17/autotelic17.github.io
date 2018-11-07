@@ -48,7 +48,7 @@ if (!window.pluginLoaded){
   let lastChatMessage = document.querySelector('.chatMessage:last-child') && document.querySelector('.chatMessage:last-child').innerText;
 
   let arraySpeed = [0.9,1,1.1];
-  function chatCheck(){ 
+  function chatCheck(){
     if (lastChatMessage !== document.querySelector('.chatMessage:last-child .chat-text').innerText){
       if (document.getElementById('chat-toggle-sound').innerHTML == '🔔'){
         playChat();
@@ -57,13 +57,27 @@ if (!window.pluginLoaded){
       lastChatMessage = document.querySelector('.chatMessage:last-child .chat-text').innerText;
       if (document.getElementById('speak-toggle-sound').innerHTML == '🔔'){
         if (!userVoiceMap[lastUsernameChat]){
-		  userVoiceMap[lastUsernameChat] = {};
-		  userVoiceMap[lastUsernameChat].voiceRate = arraySpeed[Math.floor(Math.random()*arraySpeed.length)];
- 		  userVoiceMap[lastUsernameChat].voicePitch = arraySpeed[Math.floor(Math.random()*arraySpeed.length)];
+          const thisUser = userVoiceMap[lastUsernameChat] = {};
+		  thisUser.voiceRate = arraySpeed[Math.floor(Math.random()*arraySpeed.length)];
+ 		  thisUser.voicePitch = arraySpeed[Math.floor(Math.random()*arraySpeed.length)];
         }
+        if (userVoiceMap[lastUsernameChat] && !userVoiceMap[lastUsernameChat].voice){
+          const thisUser = userVoiceMap[lastUsernameChat] = {};
+          const voices = window.speechSynthesis.getVoices();
+          const voicesAr = voices.filter( obj => obj.lang.indexOf('en-') !== -1);
+		  thisUser.voiceRate = arraySpeed[Math.floor(Math.random()*arraySpeed.length)];
+ 		  thisUser.voicePitch = arraySpeed[Math.floor(Math.random()*arraySpeed.length)];
+          if (voicesAr && voicesAr.length){
+            thisUser.voice = voicesAr[Math.floor(Math.random()*voicesAr.length)];
+          }
+        }
+
         let voiceMsg = new SpeechSynthesisUtterance(lastChatMessage);
 		voiceMsg.rate = userVoiceMap[lastUsernameChat].voiceRate;
 		voiceMsg.pitch = userVoiceMap[lastUsernameChat].voicePitch;
+        if (userVoiceMap[lastUsernameChat].voice){console.log('yes custom voice', userVoiceMap[lastUsernameChat].voice);
+		  voiceMsg.voice = userVoiceMap[lastUsernameChat].voice;
+        }
         window.speechSynthesis.speak(voiceMsg);
       }
     }
