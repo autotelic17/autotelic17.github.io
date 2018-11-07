@@ -1,7 +1,6 @@
 if (!window.pluginLoaded){
-  const version = '1.0.2';
+  const version = '1.1';
   const viewCountEl = document.querySelector(".viewerCount");
-
   if (!viewCountEl){
     alert('Script error: You must be a cammer or moderator.');
   }
@@ -20,6 +19,8 @@ if (!window.pluginLoaded){
   const diceAudio = new Audio("https://autotelic17.github.io/dice.mp3");
   diceAudio.volume=0.4;
   function playDice(){diceAudio.play();}
+
+  const userVoiceMap = {};
 
   let lastCount = viewCountEl && Number(viewCountEl.innerHTML);
   function roomCheck(){
@@ -43,20 +44,34 @@ if (!window.pluginLoaded){
     }
     lastCount = nowCount;
   }
-
-  let lastChatMessage = document.querySelector('.chatMessage:last-child') && document.querySelector('.chatMessage:last-child').innerText;
-  function chatCheck(){
-    if (document.getElementById('chat-toggle-sound').innerHTML == '🔔'){
-      if (lastChatMessage !== document.querySelector('.chatMessage:last-child').innerText){
+  let lastUsernameChat;
+  let lastChatMessage = document.querySelector('.chatMessage:last-child') && document.querySelector('.chatMessage:last-child .chat-text').innerText;
+  
+  let arraySpeed = [0.9,1,1.1]
+  function chatCheck(){ 
+    if (lastChatMessage !== document.querySelector('.chatMessage:last-child .chat-text').innerText){
+      if (document.getElementById('chat-toggle-sound').innerHTML == '🔔'){
         playChat();
-        lastChatMessage = document.querySelector('.chatMessage:last-child').innerText
       }
+      lastUsernameChat = document.querySelector('.chatMessage:last-child .username').innerText;
+      lastChatMessage = document.querySelector('.chatMessage:last-child .chat-text').innerText;
+      if (document.getElementById('speak-toggle-sound').innerHTML == '🔔'){
+        if (!userVoiceMap[lastUsernameChat]){
+		  userVoiceMap[lastUsernameChat] = {};
+		  userVoiceMap[lastUsernameChat].voiceRate = arraySpeed[Math.floor(Math.random()*arraySpeed.length)];
+ 		  userVoiceMap[lastUsernameChat].voicePitch = arraySpeed[Math.floor(Math.random()*arraySpeed.length)];
+        }
+        let voiceMsg = new SpeechSynthesisUtterance(lastChatMessage);
+		voiceMsg.rate = userVoiceMap[lastUsernameChat].voiceRate;
+		voiceMsg.pitch = userVoiceMap[lastUsernameChat].voicePitch;
+        window.speechSynthesis.speak(voiceMsg);
+      }        
     }
   }
 
   let addonDiv = document.createElement('div');
   addonDiv.style.cssText= 'color: gray; padding: 5px; font-size: 0.75em;';
-  addonDiv.innerHTML = '<span>Version ' + version + '</span><span style="float: right">Roll: <a title="reset" id="dice-roll" href="#">🎲</a> <a style="display:none;" id="dice-reset" href="#">(r)</a> &nbsp; Join: <a id="join-toggle-sound" href="#">🔔</a> &nbsp; Leave: <a id="leave-toggle-sound" href="#">🔕</a> &nbsp; Chat: <a id="chat-toggle-sound" href="#">🔕</a></span>';
+  addonDiv.innerHTML = '<span>Version ' + version + '</span><span style="float: right">Roll: <a title="reset" id="dice-roll" href="#">🎲</a> <a style="display:none;" id="dice-reset" href="#">(r)</a> &nbsp; Join: <a id="join-toggle-sound" href="#">🔔</a> &nbsp; Leave: <a id="leave-toggle-sound" href="#">🔕</a> &nbsp; Chat: <a id="chat-toggle-sound" href="#">🔕</a>  &nbsp; Speak: <a id="speak-toggle-sound" href="#">🔔</a></span>';
 
 
   document.querySelector('.tabsContainer').appendChild(addonDiv);
@@ -64,10 +79,11 @@ if (!window.pluginLoaded){
   document.getElementById('join-toggle-sound').onclick = soundToggle;
   document.getElementById('leave-toggle-sound').onclick = soundToggle;
   document.getElementById('chat-toggle-sound').onclick = soundToggle;
+  document.getElementById('speak-toggle-sound').onclick = soundToggle;
   document.getElementById('dice-roll').onclick = diceRoll;
   document.getElementById('dice-reset').onclick = diceReset;
 
-  function getRandomInt(max) {max = max - 1; return (Math.round(Math.random() * Math.floor(diceSides))) + 1;}
+  function getRandomInt(max) {max = max - 1; return (Math.round(Math.random() * Math.floor(max))) + 1;}
   function sayMsg(txt){
     document.querySelector('.chat-user-input').value = txt;
     document.querySelector('.send-btn').click();
@@ -97,7 +113,6 @@ if (!window.pluginLoaded){
       diceSides = parseInt(diceSides);
       document.getElementById('dice-reset').style.display = 'inline';
     }
-    console.log('diceSides', diceSides);
     sayMsg('Rolling the dice... 🎲');
     playDice();
     setTimeout(function(){
