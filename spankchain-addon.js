@@ -71,7 +71,7 @@ if (!window.pluginLoaded){
 
   let addonDiv = document.createElement('div');
   addonDiv.style.cssText= 'color: gray; padding: 5px; font-size: 0.75em;';
-  addonDiv.innerHTML = '<span>Version ' + version + '</span><span style="float: right">Roll: <a title="reset" id="dice-roll" href="#">🎲</a> <a style="display:none;" id="dice-reset" href="#">(r)</a> &nbsp; Join: <a id="join-toggle-sound" href="#">🔔</a> &nbsp; Leave: <a id="leave-toggle-sound" href="#">🔕</a> &nbsp; Chat: <a id="chat-toggle-sound" href="#">🔕</a>  &nbsp; Speak: <a id="speak-toggle-sound" href="#">🔔</a></span>';
+  addonDiv.innerHTML = '<span>Version ' + version + '</span><span style="float: right">Roll: <a title="reset" id="dice-roll" href="#">🎲</a> <a style="display:none;" id="dice-reset" href="#">(r)</a> &nbsp; Join: <a id="join-toggle-sound" href="#">🔔</a> &nbsp; Leave: <a id="leave-toggle-sound" href="#">🔕</a> &nbsp; Chat: <a id="chat-toggle-sound" href="#">🔕</a>  &nbsp; Speak: <a id="speak-toggle-sound" href="#">🔕</a></span>';
 
 
   document.querySelector('.tabsContainer').appendChild(addonDiv);
