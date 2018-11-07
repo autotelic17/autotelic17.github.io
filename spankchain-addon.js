@@ -53,8 +53,8 @@ if (!window.pluginLoaded){
       if (document.getElementById('chat-toggle-sound').innerHTML == '🔔'){
         playChat();
       }
-      lastUsernameChat = document.querySelector('.chatMessage:last-child .username').innerText;
-      lastChatMessage = document.querySelector('.chatMessage:last-child .chat-text').innerText;
+      lastUsernameChat = document.querySelector('.chatMessage:last-child .username') && document.querySelector('.chatMessage:last-child .username').innerText;
+      lastChatMessage = document.querySelector('.chatMessage:last-child .chat-text') && document.querySelector('.chatMessage:last-child .chat-text').innerText;
       if (document.getElementById('speak-toggle-sound').innerHTML == '🔔'){
         if (!userVoiceMap[lastUsernameChat]){
           const thisUser = userVoiceMap[lastUsernameChat] = {};
@@ -75,7 +75,7 @@ if (!window.pluginLoaded){
         let voiceMsg = new SpeechSynthesisUtterance(lastChatMessage);
 		voiceMsg.rate = userVoiceMap[lastUsernameChat].voiceRate;
 		voiceMsg.pitch = userVoiceMap[lastUsernameChat].voicePitch;
-        if (userVoiceMap[lastUsernameChat].voice){console.log('yes custom voice', userVoiceMap[lastUsernameChat].voice);
+        if (userVoiceMap[lastUsernameChat].voice){
 		  voiceMsg.voice = userVoiceMap[lastUsernameChat].voice;
         }
         window.speechSynthesis.speak(voiceMsg);
