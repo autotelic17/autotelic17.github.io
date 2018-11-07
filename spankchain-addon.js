@@ -46,8 +46,8 @@ if (!window.pluginLoaded){
   }
   let lastUsernameChat;
   let lastChatMessage = document.querySelector('.chatMessage:last-child') && document.querySelector('.chatMessage:last-child').innerText;
-  
-  let arraySpeed = [0.9,1,1.1]
+
+  let arraySpeed = [0.9,1,1.1];
   function chatCheck(){ 
     if (lastChatMessage !== document.querySelector('.chatMessage:last-child .chat-text').innerText){
       if (document.getElementById('chat-toggle-sound').innerHTML == '🔔'){
@@ -65,7 +65,7 @@ if (!window.pluginLoaded){
 		voiceMsg.rate = userVoiceMap[lastUsernameChat].voiceRate;
 		voiceMsg.pitch = userVoiceMap[lastUsernameChat].voicePitch;
         window.speechSynthesis.speak(voiceMsg);
-      }        
+      }
     }
   }
 
