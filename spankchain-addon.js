@@ -45,7 +45,7 @@ if (!window.pluginLoaded){
     lastCount = nowCount;
   }
   let lastUsernameChat;
-  let lastChatMessage = document.querySelector('.chatMessage:last-child') && document.querySelector('.chatMessage:last-child .chat-text').innerText;
+  let lastChatMessage = document.querySelector('.chatMessage:last-child') && document.querySelector('.chatMessage:last-child').innerText;
   
   let arraySpeed = [0.9,1,1.1]
   function chatCheck(){ 
