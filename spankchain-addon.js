@@ -49,7 +49,7 @@ if (!window.pluginLoaded){
 
   let arraySpeed = [0.9,1,1.1];
   function chatCheck(){
-    if (lastChatMessage !== document.querySelector('.chatMessage:last-child .chat-text').innerText){
+    if (document.querySelector('.chatMessage:last-child .chat-text') && lastChatMessage !== document.querySelector('.chatMessage:last-child .chat-text').innerText){
       if (document.getElementById('chat-toggle-sound').innerHTML == '🔔'){
         playChat();
       }
