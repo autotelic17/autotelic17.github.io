@@ -61,7 +61,7 @@ if (!window.pluginLoaded){
 		  thisUser.voiceRate = arraySpeed[Math.floor(Math.random()*arraySpeed.length)];
  		  thisUser.voicePitch = arraySpeed[Math.floor(Math.random()*arraySpeed.length)];
         }
-        if (userVoiceMap[lastUsernameChat] && !userVoiceMap[lastUsernameChat].voice){
+        if (userVoiceMap[lastUsernameChat] && (lastChatMessage.toLowerCase() == 'change voice' || !userVoiceMap[lastUsernameChat].voice)){
           const thisUser = userVoiceMap[lastUsernameChat] = {};
           const voices = window.speechSynthesis.getVoices();
           const voicesAr = voices.filter( obj => obj.lang.indexOf('en-') !== -1);
