@@ -60,9 +60,9 @@ function chatCheck(){
     lastUsernameChat = document.querySelector('.chatMessage:last-child .username') && document.querySelector('.chatMessage:last-child .username').innerText;
 	// Check to see if user is in "no-speak" list
 	if (speakBanList.indexOf(lastUsernameChat) !== -1){
-		return;
+	  return;
 	}
-	
+
     lastChatMessage = document.querySelector('.chatMessage:last-child .chat-text') && document.querySelector('.chatMessage:last-child .chat-text').innerText;
     if (document.getElementById('speak-toggle-sound').innerHTML == '🔔'){
       if (!userVoiceMap[lastUsernameChat]){
@@ -124,7 +124,7 @@ promoteDiv.style.cssText += ' text-align: center';
 
 promoteDiv.innerHTML = 'Promote: <input id="promote-text" maxlength="255" type="text" style="width: 70%;color: rgb(255, 59, 129);" value="' + (localStorage.getItem('promoMsg') || '') + '" onblur="saveLocalStorage()"><select id="promo-options" onchange="changePromoteTime()"><option value="0">off</option><option value="5">5 min</option><option value="15">15 min</option><option value="30">30 min</option><option value="60">1 hr</option></select> Repeat: <button onclick="sayButton()">send</button>';
 
-document.querySelector('.row.bottom').parentNode.insertBefore(promoteDiv, document.querySelector('.row.bottom')); 
+document.querySelector('.row.bottom').parentNode.insertBefore(promoteDiv, document.querySelector('.row.bottom'));
 document.querySelector('.tabsContainer').appendChild(addonDiv);
 
 document.getElementById('join-toggle-sound').onclick = soundToggle;
@@ -150,9 +150,9 @@ function soundToggle(e){
     this.innerHTML = '🔕';
   }else{
     if (elId == 'speak-toggle-sound' && window.speechSynthesis && window.speechSynthesis.resume){
-  	   window.speechSynthesis.resume();
+  	  window.speechSynthesis.resume();
     }
-	 
+
     this.innerHTML = '🔔';
   }
 
@@ -187,9 +187,9 @@ let lastUserClicked;
 document.querySelector('.chatListInner').addEventListener('click', function(e){
   lastUserClicked = e.target.innerText;
   if (!noSpeakElAdded){
-	  setTimeout(function(){
-		  addNoSpeak();
-	  },1)
+	setTimeout(function(){
+	  addNoSpeak();
+	},1)
   }
 });
 
@@ -197,39 +197,39 @@ document.querySelector('.chatListInner').addEventListener('click', function(e){
 let noSpeakElAdded = false;
 const speakBanList = [];
 function addNoSpeak(){
-	noSpeakElAdded = true;
-	var noSpeakEl = document.createElement('span');
-	noSpeakEl.onclick = function(){
- 	  if (speakBanList.indexOf(lastUserClicked) == -1){
-		  speakBanList.push(lastUserClicked);
-	  }
-	  document.querySelector('.menu-x').click();
+  noSpeakElAdded = true;
+  var noSpeakEl = document.createElement('span');
+  noSpeakEl.onclick = function(){
+ 	if (speakBanList.indexOf(lastUserClicked) == -1){
+	  speakBanList.push(lastUserClicked);
 	}
+	document.querySelector('.menu-x').click();
+  }
 
-	noSpeakEl.className = 'menu-button';
-	noSpeakEl.style.cssText = 'display: inline-block; cursor: pointer';
-	noSpeakEl.innerHTML = 'No Speak';
-	let menu = document.querySelector('.ToolTipPortal div');
-	let separater = document.createElement('span');
-	separater.innerHTML= '|';
-	separater.className = 'menu-seperator';
-	separater.style.cssText = 'padding: 0 10px;';
-	menu.insertBefore(separater, menu.childNodes[0]);
-	menu.insertBefore(noSpeakEl, menu.childNodes[0]);
+  noSpeakEl.className = 'menu-button';
+  noSpeakEl.style.cssText = 'display: inline-block; cursor: pointer';
+  noSpeakEl.innerHTML = 'No Speak';
+  let menu = document.querySelector('.ToolTipPortal div');
+  let separater = document.createElement('span');
+  separater.innerHTML= '|';
+  separater.className = 'menu-seperator';
+  separater.style.cssText = 'padding: 0 10px;';
+  menu.insertBefore(separater, menu.childNodes[0]);
+  menu.insertBefore(noSpeakEl, menu.childNodes[0]);
 }
 
 function addCustomCSS(){
-	var css = '.menu-button:hover{ color: rgb(255, 59, 129);}';
-	var style = document.createElement('style');
+  var css = '.menu-button:hover{ color: rgb(255, 59, 129);}';
+  var style = document.createElement('style');
 
-	if (style.styleSheet) {
-	    style.styleSheet.cssText = css;
-	} else {
-	    style.appendChild(document.createTextNode(css));
-	}
+  if (style.styleSheet) {
+	style.styleSheet.cssText = css;
+  } else {
+	style.appendChild(document.createTextNode(css));
+  }
 
-	document.getElementsByTagName('head')[0].appendChild(style);
-	
+  document.getElementsByTagName('head')[0].appendChild(style);
+
 }
 addCustomCSS();
 
