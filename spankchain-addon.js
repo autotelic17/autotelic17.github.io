@@ -2,7 +2,7 @@ if (window.pluginLoaded){
   alert('Plugin already loaded! Refresh page to reload it again.');
 }
 
-const version = '1.2';
+const version = '1.2.1';
 const viewCountEl = document.querySelector(".viewerCount");
 if (!viewCountEl){
   alert('Script error: You must be a cammer or moderator.');
@@ -58,6 +58,11 @@ function chatCheck(){
       playChat();
     }
     lastUsernameChat = document.querySelector('.chatMessage:last-child .username') && document.querySelector('.chatMessage:last-child .username').innerText;
+	// Check to see if user is in "no-speak" list
+	if (speakBanList.indexOf(lastUsernameChat) !== -1){
+		return;
+	}
+	
     lastChatMessage = document.querySelector('.chatMessage:last-child .chat-text') && document.querySelector('.chatMessage:last-child .chat-text').innerText;
     if (document.getElementById('speak-toggle-sound').innerHTML == '🔔'){
       if (!userVoiceMap[lastUsernameChat]){
@@ -135,10 +140,19 @@ function sayMsg(txt){
   document.querySelector('.send-btn').click();
 };
 
-function soundToggle(){
+function soundToggle(e){
+  // The link (action) that was clicked.
+  let elId = e.target.id;
   if (this.innerHTML == '🔔'){
+    if (elId == 'speak-toggle-sound' && window.speechSynthesis && window.speechSynthesis.cancel){
+  	  window.speechSynthesis.cancel();
+    }
     this.innerHTML = '🔕';
   }else{
+    if (elId == 'speak-toggle-sound' && window.speechSynthesis && window.speechSynthesis.resume){
+  	   window.speechSynthesis.resume();
+    }
+	 
     this.innerHTML = '🔔';
   }
 
@@ -166,6 +180,58 @@ function diceRoll(){
   }, 1000);
   return false;
 };
+
+
+// We remember the last user we clicked on.
+let lastUserClicked;
+document.querySelector('.chatListInner').addEventListener('click', function(e){
+  lastUserClicked = e.target.innerText;
+  if (!noSpeakElAdded){
+	  setTimeout(function(){
+		  addNoSpeak();
+	  },1)
+  }
+});
+
+// Add no speak div
+let noSpeakElAdded = false;
+const speakBanList = [];
+function addNoSpeak(){
+	noSpeakElAdded = true;
+	var noSpeakEl = document.createElement('span');
+	noSpeakEl.onclick = function(){
+ 	  if (speakBanList.indexOf(lastUserClicked) == -1){
+		  speakBanList.push(lastUserClicked);
+	  }
+	  document.querySelector('.menu-x').click();
+	}
+
+	noSpeakEl.className = 'menu-button';
+	noSpeakEl.style.cssText = 'display: inline-block; cursor: pointer';
+	noSpeakEl.innerHTML = 'No Speak';
+	let menu = document.querySelector('.ToolTipPortal div');
+	let separater = document.createElement('span');
+	separater.innerHTML= '|';
+	separater.className = 'menu-seperator';
+	separater.style.cssText = 'padding: 0 10px;';
+	menu.insertBefore(separater, menu.childNodes[0]);
+	menu.insertBefore(noSpeakEl, menu.childNodes[0]);
+}
+
+function addCustomCSS(){
+	var css = '.menu-button:hover{ color: rgb(255, 59, 129);}';
+	var style = document.createElement('style');
+
+	if (style.styleSheet) {
+	    style.styleSheet.cssText = css;
+	} else {
+	    style.appendChild(document.createTextNode(css));
+	}
+
+	document.getElementsByTagName('head')[0].appendChild(style);
+	
+}
+addCustomCSS();
 
 setInterval(roomCheck, 2000);
 
