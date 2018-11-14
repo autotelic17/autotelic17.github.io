@@ -58,12 +58,13 @@ function chatCheck(){
       playChat();
     }
     lastUsernameChat = document.querySelector('.chatMessage:last-child .username') && document.querySelector('.chatMessage:last-child .username').innerText;
-	// Check to see if user is in "no-speak" list
+    lastChatMessage = document.querySelector('.chatMessage:last-child .chat-text') && document.querySelector('.chatMessage:last-child .chat-text').innerText;
+
+    // Check to see if user is in "no-speak" list
 	if (speakBanList.indexOf(lastUsernameChat) !== -1){
 	  return;
 	}
 
-    lastChatMessage = document.querySelector('.chatMessage:last-child .chat-text') && document.querySelector('.chatMessage:last-child .chat-text').innerText;
     if (document.getElementById('speak-toggle-sound').innerHTML == '🔔'){
       if (!userVoiceMap[lastUsernameChat]){
         const thisUser = userVoiceMap[lastUsernameChat] = {};
@@ -200,9 +201,13 @@ function addNoSpeak(){
   noSpeakElAdded = true;
   var noSpeakEl = document.createElement('span');
   noSpeakEl.onclick = function(){
+    // No-speak user
  	if (speakBanList.indexOf(lastUserClicked) == -1){
 	  speakBanList.push(lastUserClicked);
-	}
+    // Un no-speak user
+	}else{
+      speakBanList.splice(speakBanList.indexOf(lastUserClicked), 1);
+    }
 	document.querySelector('.menu-x').click();
   }
 
