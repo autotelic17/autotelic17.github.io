@@ -2,7 +2,7 @@ if (window.pluginLoaded){
   alert('Plugin already loaded! Refresh page to reload it again.');
 }
 
-const version = '1.2.1';
+const version = '1.2.2';
 const viewCountEl = document.querySelector(".viewerCount");
 if (!viewCountEl){
   alert('Script error: You must be a cammer or moderator.');
@@ -213,7 +213,7 @@ function addNoSpeak(){
 
   noSpeakEl.className = 'menu-button';
   noSpeakEl.style.cssText = 'display: inline-block; cursor: pointer';
-  noSpeakEl.innerHTML = 'No Speak';
+  noSpeakEl.innerHTML = 'Toggle Speak';
   let menu = document.querySelector('.ToolTipPortal div');
   let separater = document.createElement('span');
   separater.innerHTML= '|';
